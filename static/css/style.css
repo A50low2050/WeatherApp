@@ -1,0 +1,123 @@
+:root {
+    --white: #ffffff;
+    --bs-fz: 25px;
+    --big-fz: 75px;
+    --small-fz: 15px;
+    --font-default: 'montserrat', sans-serif;
+
+}
+
+body{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(49,113,219,1) 0%, rgba(36,139,228,1) 0%, rgba(0,212,255,1) 100%);
+    font-size: var(--bs-fz);
+    font-family: var(--font-default);
+}
+
+header{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(49,113,219,1) 0%, rgba(36,139,228,1) 0%, rgba(0,212,255,1) 100%);
+}
+
+hr{
+    color: var(--white);
+    font-weight: 900;
+
+}
+
+.nav-link{
+    color: var(--white);
+    font-size: 25px;
+}
+
+.navbar-brand{
+    color: var(--white);
+    font-size: 25px;
+}
+/* Search City */
+
+.search__city form input{
+    border: none;
+    outline: none;
+}
+
+/* Show Weather */
+.card{
+    border: none;
+    background: transparent;
+}
+
+.show__weather{
+    color: var(--white);
+}
+
+.show__weather .wrapper__degrees{
+    font-size: var(--big-fz);
+    font-weight: 900;
+    text-shadow: 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.show__weather .wrapper__info__degrees .wrapper__image img{
+    width: 90px;
+}
+
+.show__weather .wrapper_desc{
+    font-size: var(--small-fz);
+    font-weight: 700;
+    font-style: italic;
+    text-shadow: 0px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* List Weathers */
+section.list__weathers{
+    margin-top: 50px;
+}
+
+.list__weathers{
+    color: var(--white);
+}
+
+.list__weathers .wrapper__list__weather{
+    width: 180px;
+    height: auto;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.list__weathers .btn__remove___weather{
+    position: relative;
+    font-size: 15px;
+}
+
+.list__weathers .btn__remove___weather a{
+    color: white;
+    text-decoration: None;
+}
+
+.list__weathers .wrapper__city{
+    font-size: 20px;
+}
+
+.list__weathers .wrapper__info__degrees .wrapper__image img{
+    width: 60px;
+}
+
+.list__weathers .wrapper__degrees{
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.list__weathers .wrapper_name{
+    font-size: var(--small-fz);
+}
+
+
+.nav-link:hover{
+    color: var(--white);
+    opacity: 1;
+}
+
+.navbar-brand:hover{
+    color: var(--white);
+}
