@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="WeatherCity",
+            name="User",
             fields=[
                 (
                     "id",
@@ -21,18 +21,22 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=70, verbose_name="Name City")),
-                ("temp", models.IntegerField(null=True, verbose_name="Temperature")),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
                 (
-                    "description",
-                    models.TextField(null=True, verbose_name="Description"),
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
                 ),
-                ("icon", models.CharField(max_length=200, verbose_name="ID Icon")),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "username",
+                    models.CharField(
+                        max_length=30, unique=True, verbose_name="username"
+                    ),
+                ),
             ],
             options={
-                "db_table": "weathers",
-                "ordering": ["-created_at"],
+                "abstract": False,
             },
         ),
     ]

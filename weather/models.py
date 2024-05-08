@@ -16,5 +16,5 @@ class WeatherCity(models.Model):
         return super(WeatherCity, self).save(*args, **kwargs)
 
     class Meta:
-        db_table = "weather_city"
+        db_table = "weathers"
         ordering = ["-created_at"]
