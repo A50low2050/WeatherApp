@@ -4,6 +4,6 @@ from .models import WeatherCity
 
 @admin.register(WeatherCity)
 class AdminWeatherCity(admin.ModelAdmin):
-    list_display = ["id", "name", "temp", "description", "icon"]
+    list_display = ["id", "name", "temp", "description", "icon", "user"]
 
     
