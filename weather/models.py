@@ -3,6 +3,8 @@ from django.conf import settings
 
 
 class WeatherCity(models.Model):
+    """ Model Weather """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

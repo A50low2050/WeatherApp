@@ -7,9 +7,12 @@ from .forms import WeatherCityForm
 from django.views.generic import ListView
 from .models import WeatherCity
 from users.models import User
+from weather.services import weather_service
 
 
 class Home(ListView):
+    """ Home page website """
+
     model = WeatherCity
     form_class = WeatherCityForm
     template_name = "home/home.html"
@@ -19,34 +22,21 @@ class Home(ListView):
         if form.is_valid():
             get_city = form.cleaned_data["name"].title()
             request.session["get_city"] = get_city
-            api = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=b6e6d86335de11f4c78b701b4183dfa9"
-            response = requests.get(api.format(get_city)).json()
+            response = weather_service.get_weather_api(get_city)
             user = self.request.user
 
             if response["cod"] in ["404", "400"]:
                 return redirect(reverse("home"))
-            else:
-                weather = WeatherCity.objects.filter(name=get_city, user=user)
-                if weather:
 
-                    WeatherCity.objects.filter(name=get_city).update(
-                        user=user,
-                        name=get_city,
-                        temp=int(response["main"]["temp"]),
-                        description=response["weather"][0]["description"],
-                        icon=response["weather"][0]["icon"],
-                    )
+            else:
+                weather = weather_service.get_weather_filter(get_city, user)
+
+                if weather:
+                    weather_service.get_weather_update(user=user, name=get_city)
                     cache.delete(settings.CACHE_CITY_NAME)
                     return super().get(request, *args, **kwargs)
                 else:
-                    WeatherCity.objects.create(
-                        user=user,
-                        name=get_city,
-                        temp=int(response["main"]["temp"]),
-                        description=response["weather"][0]["description"],
-                        icon=response["weather"][0]["icon"],
-
-                    )
+                    weather_service.weather_create(user=user, name=get_city)
                     cache.delete(settings.CACHE_CITY_NAME)
                     return super().get(request, *args, **kwargs)
         return super().get(request, *args, **kwargs)
@@ -58,13 +48,13 @@ class Home(ListView):
         if get_city:
 
             user = self.request.user
-            weather_info = WeatherCity.objects.filter(name=get_city).first()
+            weather_info = weather_service.get_weather_filter(city=get_city, user=user).first()
             get_cache_city = cache.get(settings.CACHE_CITY_NAME)
 
             if get_cache_city:
                 all_cities = get_cache_city
             else:
-                all_cities = WeatherCity.objects.filter(user=user).all()
+                all_cities = weather_service.get_weathers_user_all(user=user)
                 cache.set(settings.CACHE_CITY_NAME, all_cities, 15)
 
             form = self.form_class()
@@ -76,7 +66,7 @@ class Home(ListView):
         else:
             form = self.form_class()
             user = User.objects.filter(username=self.request.user.username).first()
-            all_cities = WeatherCity.objects.filter(user=user).all()
+            all_cities = weather_service.get_weathers_user_all(user=user)
 
             context["all_cities"] = all_cities
             context["title"] = "WeatherApp"
@@ -85,6 +75,8 @@ class Home(ListView):
 
 
 def delete_weather(request, weather_id):
+    """ Delete weather """
+
     w = WeatherCity.objects.get(pk=weather_id)
     w.delete()
     cache.delete(settings.CACHE_CITY_NAME)
