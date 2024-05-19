@@ -1,4 +1,3 @@
-import requests
 from django.conf import settings
 from django.shortcuts import redirect
 from django.core.cache import cache
@@ -43,7 +42,6 @@ class Home(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
         get_city = self.request.session.get("get_city")
         if get_city:
 
