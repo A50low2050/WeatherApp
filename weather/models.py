@@ -40,3 +40,17 @@ class WeatherCity(models.Model):
     class Meta:
         db_table = "weathers"
         ordering = ["-created_at"]
+
+
+class City(models.Model):
+    """ Model City """
+
+    name = models.CharField("City", max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = "city"
+        ordering = ["created_at"]

@@ -94,6 +94,7 @@ LOGGING = {
             "style": "{"
         }
     },
+
     "handlers": {
         "file": {
             "level": "WARNING",
@@ -102,17 +103,21 @@ LOGGING = {
             "filename": "general.log",
         },
         "console": {
-            "level": "WARNING",
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "main_format",
-        }
+        },
     },
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": "DEBUG",
+            "level": "INFO",
             "propagate": True,
         },
+        "django.db.backends": {
+            "level": 'DEBUG',
+            "handlers": ["console"],
+        }
     },
 }
 
@@ -175,3 +180,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = ["127.0.0.1"]
 
 AUTH_USER_MODEL = "users.User"
+
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"

@@ -45,3 +45,8 @@ class GetWeatherApiTest(TestCase):
         self.assertEqual(response["name"], "London")
         self.assertEqual(response["main"]["temp"], 15.0)
         self.assertEqual(response["weather"][0]["description"], "clear sky")
+
+    def test_get_weather_in_page(self):
+        response = self.client.get("/")
+        assert response.status_code == 200
+        assert self.assertContains(response, "Home")

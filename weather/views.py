@@ -2,11 +2,12 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.core.cache import cache
 from django.urls import reverse
-from .forms import WeatherCityForm
 from django.views.generic import ListView
+from .forms import WeatherCityForm
 from .models import WeatherCity
 from users.models import User
 from weather.services import weather_service
+from .tasks import get_city_api
 
 
 class Home(ListView):
@@ -28,6 +29,7 @@ class Home(ListView):
                 return redirect(reverse("home"))
 
             else:
+                get_city_api.delay(get_city)
                 weather = weather_service.get_weather_filter(get_city, user)
 
                 if weather:
@@ -43,6 +45,7 @@ class Home(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         get_city = self.request.session.get("get_city")
+
         if get_city:
 
             user = self.request.user

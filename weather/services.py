@@ -6,7 +6,9 @@ logger = logging.getLogger("django")
 
 
 class WeatherServices:
+    """ Service for weather """
 
+    @staticmethod
     def get_weather_api(self, city):
         try:
             api = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=b6e6d86335de11f4c78b701b4183dfa9"
@@ -15,9 +17,11 @@ class WeatherServices:
         except Exception as error:
             logger.error(error)
 
+    @staticmethod
     def get_weather_filter(self, city, user):
         return WeatherCity.objects.filter(name=city, user=user)
 
+    @staticmethod
     def get_weather_update(self, user, name):
         response = self.get_weather_api(city=name)
         temp = int(response["main"]["temp"])
@@ -32,9 +36,11 @@ class WeatherServices:
                         icon=icon,
                     )
 
+    @staticmethod
     def get_weathers_user_all(self, user):
         return WeatherCity.objects.filter(user=user).all()
 
+    @staticmethod
     def weather_create(self, user, name):
         response = self.get_weather_api(city=name)
         temp = int(response["main"]["temp"])
@@ -51,3 +57,4 @@ class WeatherServices:
 
 
 weather_service = WeatherServices()
+
