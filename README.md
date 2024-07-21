@@ -1,10 +1,44 @@
 # Установка
 
-Клонируем проект: **git clone git@github.com:A50low2050/WeatherApp.git**
+Клонируем проект: 
+``` bash
+https://github.com/A50low2050/WeatherApp.git
+```
+Переходим в директорию:
+
+```bash
+cd weather_app
+```
+Установка зависимостей:
+
+``` bash 
+pip install requirements.txt
+```
+
+Создаем миграции:
+
+``` bash 
+manage.py migrate
+```
+
+Запускаем проект:
+
+``` bash 
+manage.py runserver
+```
 
 На windows должен быть загружен **Desktop Docker**
 
-Пишем команду для запуска redis: **docker-compose up**
+Пишем команду для запуска redis:
+
+``` bash
+docker-compose up
+```
+Запуск Celery:
+
+```bash
+celery -A weather_app worker --loglevel=info -P eventlet
+```
 
 # Описание
 
@@ -20,4 +54,3 @@
 :white_check_mark: **Docker**
 
 :white_check_mark: **Redis**
-
