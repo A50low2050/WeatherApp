@@ -124,6 +124,42 @@
     </div>
 </section>
 
+{% if show_cities %}
+<section class="list__weathers">
+    <div class="container">
+        <hr>
+        <div class="row d-flex justify-content-start">
+            {% for city in show_cities.weather_info %}
+            <div class="col-auto card__list__weathers p-3">
+                <div class="wrapper__list__weather">
+
+                  <div class="wrapper__city d-flex justify-content-center mb-2">
+                      <span>{{ city.city|title }}</span>
+                  </div>
+
+                  <div class="wrapper__info__degrees d-flex justify-content-center align-items-center">
+
+                    <div class="wrapper__image pe-1">
+                      <img src="http://openweathermap.org/img/wn/{{ city.icon }}@2x.png" alt="icons_weathers">
+                    </div>
+
+                    <div class="wrapper__degrees">
+                      <span>{{ city.temp }}</span><span>°c</span>
+                    </div>
+
+                  </div>
+
+                  <div class="wrapper_name d-flex justify-content-center mt-2">
+                        <span>{{ city.description }}</span>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

@@ -7,7 +7,7 @@ from .forms import WeatherCityForm
 from .models import WeatherCity
 from users.models import User
 from weather.services import weather_service
-from .tasks import get_city_api
+from .tasks import get_cities_api
 
 
 class Home(ListView):
@@ -29,8 +29,7 @@ class Home(ListView):
                 return redirect(reverse("home"))
 
             else:
-                get_city_api.delay(get_city)
-                weather = weather_service.get_weather_filter(get_city, user)
+                weather = weather_service.get_current_weather(get_city, user)
 
                 if weather:
                     weather_service.get_weather_update(user=user, name=get_city)
@@ -48,8 +47,11 @@ class Home(ListView):
 
         if get_city:
 
+            get_cities = get_cities_api.delay()
+            show_cities = get_cities.get()
+
             user = self.request.user
-            weather_info = weather_service.get_weather_filter(city=get_city, user=user).first()
+            weather_info = weather_service.get_current_weather(city=get_city, user=user).first()
             get_cache_city = cache.get(settings.CACHE_CITY_NAME)
 
             if get_cache_city:
@@ -63,6 +65,7 @@ class Home(ListView):
             context["form"] = form
             context["weather_info"] = weather_info
             context["all_cities"] = all_cities
+            context["show_cities"] = show_cities
             return context
         else:
             form = self.form_class()

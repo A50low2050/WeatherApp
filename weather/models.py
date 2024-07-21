@@ -28,7 +28,11 @@ class WeatherCity(models.Model):
         "ID Icon",
         max_length=200
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    created_at = models.DateTimeField(
+        "Data created",
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.name
@@ -45,12 +49,18 @@ class WeatherCity(models.Model):
 class City(models.Model):
     """ Model City """
 
-    name = models.CharField("City", max_length=150)
-    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(
+        "City",
+        max_length=150
+    )
+    created_at = models.DateTimeField(
+        "Data created",
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
         db_table = "city"
-        ordering = ["created_at"]
+        ordering = ["name"]

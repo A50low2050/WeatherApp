@@ -3,6 +3,7 @@ from django.forms import ModelForm, TextInput
 
 
 class WeatherCityForm(ModelForm):
+    """ Form for weather """
     class Meta:
         model = WeatherCity
         fields = ["name"]

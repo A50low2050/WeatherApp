@@ -8,8 +8,12 @@ logger = logging.getLogger("django")
 class WeatherServices:
     """ Service for weather """
 
-    @staticmethod
-    def get_weather_api(self, city):
+    def get_weather_api(self, city: str):
+        """ Get API and return response
+        :param city: to get information about the weather in the city
+        :type city: str
+        """
+
         try:
             api = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=b6e6d86335de11f4c78b701b4183dfa9"
             response = requests.get(api.format(city)).json()
@@ -17,12 +21,17 @@ class WeatherServices:
         except Exception as error:
             logger.error(error)
 
-    @staticmethod
-    def get_weather_filter(self, city, user):
-        return WeatherCity.objects.filter(name=city, user=user)
+    def get_current_weather(self, city, user):
+        """ Return current weather from database """
 
-    @staticmethod
+        return WeatherCity.objects.filter(
+            name=city,
+            user=user,
+        )
+
     def get_weather_update(self, user, name):
+        """ Update information about weather in database """
+
         response = self.get_weather_api(city=name)
         temp = int(response["main"]["temp"])
         description = response["weather"][0]["description"]
@@ -36,12 +45,14 @@ class WeatherServices:
                         icon=icon,
                     )
 
-    @staticmethod
     def get_weathers_user_all(self, user):
+        """ Shows weather information for a specific user """
+
         return WeatherCity.objects.filter(user=user).all()
 
-    @staticmethod
     def weather_create(self, user, name):
+        """ Create new information about weather in database """
+
         response = self.get_weather_api(city=name)
         temp = int(response["main"]["temp"])
         description = response["weather"][0]["description"]

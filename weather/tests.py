@@ -1,4 +1,3 @@
-import requests
 import requests_mock
 from django.test import TestCase
 from weather.services import weather_service
